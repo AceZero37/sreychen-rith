@@ -1,0 +1,42 @@
+/* Global Reset & Base */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #0c091a;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Page transition wrapper */
+.page-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Selection color */
+::selection {
+  background: rgba(127, 83, 172, 0.4);
+  color: #ffe873;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0c091a;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #7f53ac, #647dee);
+  border-radius: 3px;
+}

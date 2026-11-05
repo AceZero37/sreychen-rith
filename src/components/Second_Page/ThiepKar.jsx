@@ -263,77 +263,110 @@ const ThiepKar = ({ lang = "kh" }) => {
             </div>
           </motion.div>
 
-          {/* Parents Section - Animates on every scroll up & down */}
-          <div className="thiepkar-parents-grid">
-            {/* Groom's Parents */}
-            <motion.div
-              className="parent-box groom-side"
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <div className="parent-badge">
-                {isKh ? "ខាងកូនប្រុស" : "Groom's Family"}
+          {/* Parents Section - Traditional Symmetrical Layout */}
+          <motion.div
+            className="traditional-parents-tablet"
+            initial={{ opacity: 0, y: 35, scale: 0.98 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: false, amount: 0.15 }}
+            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {/* Shared Header */}
+            <div className="parents-shared-header text-center">
+              <div className="traditional-mini-crown">
+                <span className="mini-leaf">❦</span>
+                <span className="mini-star">✦</span>
+                <span className="mini-leaf">❦</span>
               </div>
-              <h4 className="parent-label">
-                {isKh ? "មាតាបិតាខាងកូនប្រុស" : "Parents of the Groom"}
-              </h4>
-              <div className="parents-names-list">
-                <p className="parent-person">
-                  <span className="parent-role">{isKh ? "លោកឪពុក ៖ " : "Father: "}</span>
-                  <span className="parent-name">{isKh ? "អ៊ួយ សុវណ្ណ" : "Ouy Sovan"}</span>
-                </p>
-                <p className="parent-person">
-                  <span className="parent-role">{isKh ? "អ្នកម្តាយ ៖ " : "Mother: "}</span>
-                  <span className="parent-name">{isKh ? "ទូច ស្រីនាង" : "Touch Sreyniang"}</span>
-                </p>
+              <h3 className="parents-shared-title">
+                {isKh ? "មាតាបិតាទាំងសងខាង" : "The Honored Parents"}
+              </h3>
+              <div className="parents-header-divider">
+                <span className="p-line" />
+                <span className="p-knot">⚜</span>
+                <span className="p-line" />
               </div>
-              <p className="family-status">
-                {isKh ? "កូនប្រុស ៖ សុវណ្ណ ណារិទ្ធ" : "Son: Sovan Narith"}
-              </p>
-            </motion.div>
+            </div>
 
-            {/* Sacred Lotus Center */}
-            <motion.div
-              className="parent-center-emblem"
-              initial={{ scale: 0, rotate: -40 }}
-              whileInView={{ scale: 1, rotate: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            >
-              <span className="lotus-symbol">🪷</span>
-            </motion.div>
+            {/* Symmetrical Two-Wing Columns with Center Pillar */}
+            <div className="parents-symmetrical-grid">
+              {/* Left Column: Groom's Family */}
+              <motion.div
+                className="family-wing groom-wing"
+                initial={{ opacity: 0, x: -35 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: false, amount: 0.2 }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <div className="wing-header">
+                  <span className="wing-badge groom-badge">
+                    {isKh ? "ខាងកូនប្រុស" : "Groom's Side"}
+                  </span>
+                </div>
 
-            {/* Bride's Parents */}
-            <motion.div
-              className="parent-box bride-side"
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <div className="parent-badge">
-                {isKh ? "ខាងកូនស្រី" : "Bride's Family"}
+                <div className="wing-body">
+                  <div className="parent-row">
+                    <span className="parent-title-kh">{isKh ? "លោកឪពុក ៖" : "Father:"}</span>
+                    <span className="parent-full-name">{isKh ? "អ៊ួយ សុវណ្ណ" : "Ouy Sovan"}</span>
+                  </div>
+                  <div className="parent-row">
+                    <span className="parent-title-kh">{isKh ? "អ្នកម្តាយ ៖" : "Mother:"}</span>
+                    <span className="parent-full-name">{isKh ? "ទូច ស្រីនាង" : "Touch Sreyniang"}</span>
+                  </div>
+                </div>
+
+                <div className="wing-child-status">
+                  <span className="child-tag">{isKh ? "កូនប្រុស ៖" : "Son:"}</span>
+                  <span className="child-name">{isKh ? "សុវណ្ណ ណារិទ្ធ" : "Sovan Narith"}</span>
+                </div>
+              </motion.div>
+
+              {/* Center Pillar: Sacred Union Rings & Lotus */}
+              <div className="parents-center-pillar">
+                <span className="pillar-vine top" />
+                <motion.div
+                  className="pillar-emblem"
+                  animate={{ scale: [1, 1.15, 1], rotate: [0, -4, 4, 0] }}
+                  transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                >
+                  <span className="pillar-rings">💍</span>
+                </motion.div>
+                <span className="pillar-union-text">{isKh ? "ភ្ជាប់និស្ស័យ" : "In Union"}</span>
+                <span className="pillar-vine bottom" />
               </div>
-              <h4 className="parent-label">
-                {isKh ? "មាតាបិតាខាងកូនស្រី" : "Parents of the Bride"}
-              </h4>
-              <div className="parents-names-list">
-                <p className="parent-person">
-                  <span className="parent-role">{isKh ? "លោកឪពុក ៖ " : "Father: "}</span>
-                  <span className="parent-name">{isKh ? "ពេជ្រ ចន្ធូ" : "Pech Chanthou"}</span>
-                </p>
-                <p className="parent-person">
-                  <span className="parent-role">{isKh ? "អ្នកម្តាយ ៖ " : "Mother: "}</span>
-                  <span className="parent-name">{isKh ? "ស៊ិន សារ៉ាន់" : "Sin Saran"}</span>
-                </p>
-              </div>
-              <p className="family-status">
-                {isKh ? "កូនស្រី ៖ ស៊ិន ស្រីចិន" : "Daughter: Sin SreyChen"}
-              </p>
-            </motion.div>
-          </div>
+
+              {/* Right Column: Bride's Family */}
+              <motion.div
+                className="family-wing bride-wing"
+                initial={{ opacity: 0, x: 35 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: false, amount: 0.2 }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <div className="wing-header">
+                  <span className="wing-badge bride-badge">
+                    {isKh ? "ខាងកូនស្រី" : "Bride's Side"}
+                  </span>
+                </div>
+
+                <div className="wing-body">
+                  <div className="parent-row">
+                    <span className="parent-title-kh">{isKh ? "លោកឪពុក ៖" : "Father:"}</span>
+                    <span className="parent-full-name">{isKh ? "ពេជ្រ ចន្ធូ" : "Pech Chanthou"}</span>
+                  </div>
+                  <div className="parent-row">
+                    <span className="parent-title-kh">{isKh ? "អ្នកម្តាយ ៖" : "Mother:"}</span>
+                    <span className="parent-full-name">{isKh ? "ស៊ិន សារ៉ាន់" : "Sin Saran"}</span>
+                  </div>
+                </div>
+
+                <div className="wing-child-status">
+                  <span className="child-tag">{isKh ? "កូនស្រី ៖" : "Daughter:"}</span>
+                  <span className="child-name">{isKh ? "ស៊ិន ស្រីចិន" : "Sin SreyChen"}</span>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
 
           {/* Formal Invitation Message */}
           <motion.div
@@ -418,7 +451,7 @@ const ThiepKar = ({ lang = "kh" }) => {
               <h2 className="couple-person-name">
                 {isKh ? "ស៊ិន ស្រីចិន" : "Sin SreyChen"}
               </h2>
-              <span className="couple-nickname">(Ry)</span>
+              <span className="couple-nickname">(Mey)</span>
               <p className="couple-honor">
                 {isKh ? "កូនស្រីច្បង" : "Beloved Daughter"}
               </p>

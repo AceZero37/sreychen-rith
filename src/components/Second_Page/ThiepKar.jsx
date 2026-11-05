@@ -448,7 +448,7 @@ const ThiepKar = ({ lang = "kh" }) => {
               {isKh ? "កាលវិភាគពិធី" : "Timeline"}
             </span>
             <h2 className="section-title">
-              {isKh ? "កម្មវិធីបុណ្យអាពាហ៍ពិពាហ៍" : "Wedding Ceremonial Program"}
+              {isKh ? "កម្មវិធីអាពាហ៍ពិពាហ៍" : "Wedding Program"}
             </h2>
             <p className="section-subtitle">
               {isKh

@@ -1,19 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import OurStory from "./OurStory";
+import FlipCountdown from "./FlipCountdown";
+import PhotoGallery from "./PhotoGallery";
 import "./ThiepKar.css";
-
-const WEDDING_DATE = new Date("2031-05-20T07:00:00");
-
-const GALLERY_IMAGES = [
-  { src: "/assets/images/3.jpg", caption: "Sweet Moments" },
-  { src: "/assets/images/4.jpg", caption: "Forever Together" },
-  { src: "/assets/images/9.jpg", caption: "Happy Memories" },
-  { src: "/assets/images/1.jpg", caption: "The Groom - Rith" },
-  { src: "/assets/images/2.jpg", caption: "The Bride - Ry" },
-  { src: "/assets/images/5.jpg", caption: "Pure Happiness" },
-  { src: "/assets/images/6.jpg", caption: "Joyful Days" },
-  { src: "/assets/images/7.jpg", caption: "Romantic Walk" },
-  { src: "/assets/images/8.jpg", caption: "Love Story" },
-];
 
 const INITIAL_WISHES = [
   {
@@ -33,18 +23,71 @@ const INITIAL_WISHES = [
   },
 ];
 
+const CEREMONIAL_SCHEDULE = [
+  {
+    time: "07:00",
+    ampmKh: "ព្រឹក",
+    ampmEn: "AM",
+    icon: "🌅",
+    titleKh: "ពិធីជួបជុំញាតិមិត្ត និងហែកូនកំលោះ (ហែកំណត់)",
+    titleEn: "Gathering & Groom's Procession (Hae Chamnoun)",
+    descKh:
+      "ជួបជុំបងប្អូន ញាតិមិត្តជិតឆ្ងាយ និងរៀបចំហែកូនកំលោះចូលរោងជ័យ រៀបចំជំនូនផ្លែឈើ",
+    descEn:
+      "Relatives gather to escort the groom in the traditional procession to the wedding hall with fruit trays.",
+  },
+  {
+    time: "08:30",
+    ampmKh: "ព្រឹក",
+    ampmEn: "AM",
+    icon: "🍎",
+    titleKh: "ពិធីរៀបរាប់ផ្លែឈើ និងពិសាអាហារពេលព្រឹក",
+    titleEn: "Fruit Offering Ceremony & Morning Feast",
+    descKh:
+      "ពិធីរាប់ជំនូនផ្លែឈើ និងអញ្ជើញភ្ញៀវកិត្តិយសទាំងអស់ទទួលទានអាហារពេលព្រឹកជុំគ្នា",
+    descEn:
+      "Ceremonial counting and offering of wedding fruits, followed by breakfast for all honored guests.",
+  },
+  {
+    time: "09:30",
+    ampmKh: "ព្រឹក",
+    ampmEn: "AM",
+    icon: "✂️",
+    titleKh: "ពិធីកាត់សក់បង្កក់សិរី",
+    titleEn: "Hair Cutting & Cleansing Blessing (Kat Sok)",
+    descKh:
+      "ពិធីកាត់សក់សិរីសួស្តី ជម្រះឧបទ្រពចង្រៃ និងប្រសិទ្ធពរជ័យសិរីមង្គលដល់គូស្វាមីភរិយាថ្មី",
+    descEn:
+      "Symbolic hair cleansing and cutting ceremony to purge misfortune and bring good luck and purity.",
+  },
+  {
+    time: "11:00",
+    ampmKh: "ព្រឹក",
+    ampmEn: "AM",
+    icon: "💍",
+    titleKh: "ពិធីសំពះផ្ទឹម ចងដៃ និងបាចផ្កាស្លា",
+    titleEn: "Sacred Pairing & Red Thread Blessing (Sompeas Ptem)",
+    descKh:
+      "ពិធីសំពះផ្ទឹម ចងអំបោះក្រហម និងបាចផ្កាស្លា ប្រសិទ្ធពរជ័យឱ្យស្រឡាញ់គ្នាដល់ចាស់កោងខ្នង",
+    descEn:
+      "The sacred wrist tying ceremony with red threads and shower of areca flowers for eternal marriage bond.",
+  },
+  {
+    time: "05:00",
+    ampmKh: "ល្ងាច",
+    ampmEn: "PM",
+    icon: "🥂",
+    isHighlight: true,
+    titleKh: "ពិធីទទួលបដិសណ្ឋារកិច្ច និងពិសាភោជនាហារ",
+    titleEn: "Grand Reception, Dinner Banquet & Music",
+    descKh:
+      "ទទួលស្វាគមន៍ភ្ញៀវកិត្តិយស ពិសាភោជនាហារពេលល្ងាច រាំកម្សាន្ត និងថតរូបអនុស្សាវរីយ៍",
+    descEn:
+      "Welcome reception banquet, joyous dinner celebration, champagne toast, live music, and dancing.",
+  },
+];
+
 const ThiepKar = ({ lang = "kh" }) => {
-  // Countdown State
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
-
-  // Lightbox State
-  const [activePhoto, setActivePhoto] = useState(null);
-
   // Wishes State
   const [wishes, setWishes] = useState(() => {
     try {
@@ -59,53 +102,24 @@ const ThiepKar = ({ lang = "kh" }) => {
   const [senderMessage, setSenderMessage] = useState("");
   const [showHearts, setShowHearts] = useState(false);
   const [copiedToast, setCopiedToast] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
-  // Countdown timer calculation
+  // Monitor scroll for back to top button
   useEffect(() => {
-    const calculateTime = () => {
-      const now = new Date();
-      const diff = WEDDING_DATE - now;
-
-      if (diff > 0) {
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((diff / 1000 / 60) % 60);
-        const seconds = Math.floor((diff / 1000) % 60);
-        setTimeLeft({ days, hours, minutes, seconds });
+    const handleScroll = () => {
+      if (window.scrollY > 450) {
+        setShowScrollTop(true);
       } else {
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        setShowScrollTop(false);
       }
     };
-
-    calculateTime();
-    const interval = setInterval(calculateTime, 1000);
-    return () => clearInterval(interval);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Scroll reveal animation observer — re-triggers on every viewport entry
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const el = entry.target;
-            el.classList.remove("is-visible");
-            void el.offsetWidth;
-            el.classList.add("is-visible");
-          }
-        });
-      },
-      {
-        threshold: 0.12,
-        rootMargin: "0px 0px -20px 0px",
-      }
-    );
-
-    const elements = document.querySelectorAll(".reveal-on-scroll");
-    elements.forEach((el) => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   // Handle wish submission
   const handleWishSubmit = (e) => {
@@ -177,17 +191,53 @@ const ThiepKar = ({ lang = "kh" }) => {
         </div>
       )}
 
+      {/* Floating Scroll-to-Top Button */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            type="button"
+            className="scroll-to-top-btn"
+            onClick={scrollToTop}
+            initial={{ opacity: 0, scale: 0, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0, y: 20 }}
+            whileHover={{ scale: 1.15, y: -3 }}
+            whileTap={{ scale: 0.9 }}
+            title={isKh ? "ត្រឡប់ទៅខាងលើ" : "Back to top"}
+            aria-label="Back to top"
+          >
+            <svg
+              className="scroll-to-top-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M18 15l-6-6-6 6" />
+            </svg>
+          </motion.button>
+        )}
+      </AnimatePresence>
+
       <div className="thiepkar-container">
         {/* ================= 1. TRADITIONAL THIEP KAR (INVITATION CARD) ================= */}
-        <div className="thiepkar-card reveal-on-scroll">
-          {/* Ornate Gold Border & Corners */}
-          <div className="ornate-corner top-left" />
-          <div className="ornate-corner top-right" />
-          <div className="ornate-corner bottom-left" />
-          <div className="ornate-corner bottom-right" />
-
+        <motion.div
+          className="thiepkar-card"
+          initial={{ opacity: 0, y: 45, scale: 0.97 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: false, amount: 0.12 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
           {/* Top Sacred Heading */}
-          <div className="thiepkar-header text-center">
+          <motion.div
+            className="thiepkar-header text-center"
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.6 }}
+          >
             <div className="traditional-crown">
               <span className="sacred-leaf">❦</span>
               <span className="sacred-circle">✦</span>
@@ -211,12 +261,18 @@ const ThiepKar = ({ lang = "kh" }) => {
               <span className="ring-icon">💍</span>
               <span className="line" />
             </div>
-          </div>
+          </motion.div>
 
-          {/* Parents Section */}
+          {/* Parents Section - Animates on every scroll up & down */}
           <div className="thiepkar-parents-grid">
             {/* Groom's Parents */}
-            <div className="parent-box groom-side">
+            <motion.div
+              className="parent-box groom-side"
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: false, amount: 0.2 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            >
               <div className="parent-badge">
                 {isKh ? "ខាងកូនប្រុស" : "Groom's Family"}
               </div>
@@ -229,15 +285,27 @@ const ThiepKar = ({ lang = "kh" }) => {
               <p className="family-status">
                 {isKh ? "សុវណ្ណ ណារិទ្ធ" : "Sovan Narith"}
               </p>
-            </div>
+            </motion.div>
 
             {/* Sacred Lotus Center */}
-            <div className="parent-center-emblem">
+            <motion.div
+              className="parent-center-emblem"
+              initial={{ scale: 0, rotate: -40 }}
+              whileInView={{ scale: 1, rotate: 0 }}
+              viewport={{ once: false, amount: 0.2 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            >
               <span className="lotus-symbol">🪷</span>
-            </div>
+            </motion.div>
 
             {/* Bride's Parents */}
-            <div className="parent-box bride-side">
+            <motion.div
+              className="parent-box bride-side"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: false, amount: 0.2 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            >
               <div className="parent-badge">
                 {isKh ? "ខាងកូនស្រី" : "Bride's Family"}
               </div>
@@ -250,22 +318,35 @@ const ThiepKar = ({ lang = "kh" }) => {
               <p className="family-status">
                 {isKh ? "ស៊ិន ស្រីចិន" : "Sin SreyChen"}
               </p>
-            </div>
+            </motion.div>
           </div>
 
           {/* Formal Invitation Message */}
-          <div className="thiepkar-invitation-text text-center">
+          <motion.div
+            className="thiepkar-invitation-text text-center"
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.7 }}
+          >
             <p>
               {isKh
                 ? "យើងខ្ញុំមានកិត្តិយសសូមគោរពអញ្ជើញ ឯកឧត្តម លោកជំទាវ លោក លោកស្រី អ្នកនាងកញ្ញា និងប្រិយមិត្តជិតឆ្ងាយទាំងអស់ មេត្តាអញ្ជើញចូលរួមជាអធិបតី និងជាភ្ញៀវកិត្តិយស ដើម្បីប្រសិទ្ធពរជ័យ សិរីសួស្តី ជ័យមង្គល ក្នុងពិធីរៀបអាពាហ៍ពិពាហ៍កូនប្រុស កូនស្រី របស់យើងខ្ញុំ"
                 : "We cordially invite you, our distinguished guests, family, and cherished friends, to grace our celebration with your presence and bestow your blessings upon the marriage of our beloved son and daughter."}
             </p>
-          </div>
+          </motion.div>
 
           {/* Bride & Groom Couple Presentation Cards */}
           <div className="couple-cards-container">
             {/* Groom Card */}
-            <div className="couple-person-card groom-card">
+            <motion.div
+              className="couple-person-card groom-card"
+              initial={{ opacity: 0, x: -60, scale: 0.94 }}
+              whileInView={{ opacity: 1, x: 0, scale: 1 }}
+              viewport={{ once: false, amount: 0.2 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ y: -8, scale: 1.03 }}
+            >
               <div className="couple-photo-wrapper">
                 <img
                   src="/assets/images/1.jpg"
@@ -283,20 +364,33 @@ const ThiepKar = ({ lang = "kh" }) => {
               <p className="couple-honor">
                 {isKh ? "កូនប្រុសច្បង" : "Beloved Son"}
               </p>
-            </div>
+            </motion.div>
 
             {/* Center Heart Rings & Connected By Love */}
-            <div className="couple-center-connector">
+            <motion.div
+              className="couple-center-connector"
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: false, amount: 0.2 }}
+              transition={{ type: "spring", stiffness: 350, damping: 20 }}
+            >
               <div className="connector-rings">
                 <span className="ring-pulse">❤️</span>
               </div>
               <span className="connector-text">
                 {isKh ? "ភ្ជាប់និស្ស័យ" : "Tied in Love"}
               </span>
-            </div>
+            </motion.div>
 
             {/* Bride Card */}
-            <div className="couple-person-card bride-card">
+            <motion.div
+              className="couple-person-card bride-card"
+              initial={{ opacity: 0, x: 60, scale: 0.94 }}
+              whileInView={{ opacity: 1, x: 0, scale: 1 }}
+              viewport={{ once: false, amount: 0.2 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ y: -8, scale: 1.03 }}
+            >
               <div className="couple-photo-wrapper">
                 <img
                   src="/assets/images/2.jpg"
@@ -314,13 +408,28 @@ const ThiepKar = ({ lang = "kh" }) => {
               <p className="couple-honor">
                 {isKh ? "កូនស្រីច្បង" : "Beloved Daughter"}
               </p>
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
 
-        {/* ================= 2. WEDDING CEREMONIAL PROGRAM (SCHEDULE) ================= */}
-        <div className="thiepkar-section-card reveal-on-scroll">
-          <div className="section-header text-center">
+        {/* ================= 2. OUR STORY SECTION ================= */}
+        <OurStory lang={lang} />
+
+        {/* ================= 3. WEDDING CEREMONIAL PROGRAM (SCHEDULE) ================= */}
+        <motion.div
+          className="thiepkar-section-card"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.12 }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <motion.div
+            className="section-header text-center"
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.6 }}
+          >
             <span className="section-badge">
               {isKh ? "កាលវិភាគពិធី" : "Timeline"}
             </span>
@@ -333,164 +442,58 @@ const ThiepKar = ({ lang = "kh" }) => {
                 : "Sunday, May 20th, 2031"}
             </p>
             <div className="small-golden-divider" />
-          </div>
+          </motion.div>
 
           <div className="timeline-container">
-            {/* Timeline Item 1 */}
-            <div className="timeline-item">
-              <div className="timeline-time">
-                <span className="time-digit">07:00</span>
-                <span className="time-ampm">{isKh ? "ព្រឹក" : "AM"}</span>
-              </div>
-              <div className="timeline-marker">
-                <span className="marker-icon">🌅</span>
-              </div>
-              <div className="timeline-content">
-                <h4 className="timeline-title">
-                  {isKh
-                    ? "ពិធីជួបជុំញាតិមិត្ត និងហែកូនកំលោះ (ហែកំណត់)"
-                    : "Gathering & Groom's Procession (Hae Chamnoun)"}
-                </h4>
-                <p className="timeline-desc">
-                  {isKh
-                    ? "ជួបជុំបងប្អូន ញាតិមិត្តជិតឆ្ងាយ និងរៀបចំហែកូនកំលោះចូលរោងជ័យ រៀបចំជំនូនផ្លែឈើ"
-                    : "Relatives gather to escort the groom in the traditional procession to the wedding hall with fruit trays."}
-                </p>
-              </div>
-            </div>
-
-            {/* Timeline Item 2 */}
-            <div className="timeline-item">
-              <div className="timeline-time">
-                <span className="time-digit">08:30</span>
-                <span className="time-ampm">{isKh ? "ព្រឹក" : "AM"}</span>
-              </div>
-              <div className="timeline-marker">
-                <span className="marker-icon">🍎</span>
-              </div>
-              <div className="timeline-content">
-                <h4 className="timeline-title">
-                  {isKh
-                    ? "ពិធីរៀបរាប់ផ្លែឈើ និងពិសាអាហារពេលព្រឹក"
-                    : "Fruit Offering Ceremony & Morning Feast"}
-                </h4>
-                <p className="timeline-desc">
-                  {isKh
-                    ? "ពិធីរាប់ជំនូនផ្លែឈើ និងអញ្ជើញភ្ញៀវកិត្តិយសទាំងអស់ទទួលទានអាហារពេលព្រឹកជុំគ្នា"
-                    : "Ceremonial counting and offering of wedding fruits, followed by breakfast for all honored guests."}
-                </p>
-              </div>
-            </div>
-
-            {/* Timeline Item 3 */}
-            <div className="timeline-item">
-              <div className="timeline-time">
-                <span className="time-digit">09:30</span>
-                <span className="time-ampm">{isKh ? "ព្រឹក" : "AM"}</span>
-              </div>
-              <div className="timeline-marker">
-                <span className="marker-icon">✂️</span>
-              </div>
-              <div className="timeline-content">
-                <h4 className="timeline-title">
-                  {isKh
-                    ? "ពិធីកាត់សក់បង្កក់សិរី"
-                    : "Hair Cutting & Cleansing Blessing (Kat Sok)"}
-                </h4>
-                <p className="timeline-desc">
-                  {isKh
-                    ? "ពិធីកាត់សក់សិរីសួស្តី ជម្រះឧបទ្រពចង្រៃ និងប្រសិទ្ធពរជ័យសិរីមង្គលដល់គូស្វាមីភរិយាថ្មី"
-                    : "Symbolic hair cleansing and cutting ceremony to purge misfortune and bring good luck and purity."}
-                </p>
-              </div>
-            </div>
-
-            {/* Timeline Item 4 */}
-            <div className="timeline-item">
-              <div className="timeline-time">
-                <span className="time-digit">11:00</span>
-                <span className="time-ampm">{isKh ? "ព្រឹក" : "AM"}</span>
-              </div>
-              <div className="timeline-marker">
-                <span className="marker-icon">💍</span>
-              </div>
-              <div className="timeline-content">
-                <h4 className="timeline-title">
-                  {isKh
-                    ? "ពិធីសំពះផ្ទឹម ចងដៃ និងបាចផ្កាស្លា"
-                    : "Sacred Pairing & Red Thread Blessing (Sompeas Ptem)"}
-                </h4>
-                <p className="timeline-desc">
-                  {isKh
-                    ? "ពិធីសំពះផ្ទឹម ចងអំបោះក្រហម និងបាចផ្កាស្លា ប្រសិទ្ធពរជ័យឱ្យស្រឡាញ់គ្នាដល់ចាស់កោងខ្នង"
-                    : "The sacred wrist tying ceremony with red threads and shower of areca flowers for eternal marriage bond."}
-                </p>
-              </div>
-            </div>
-
-            {/* Timeline Item 5 */}
-            <div className="timeline-item highlight">
-              <div className="timeline-time">
-                <span className="time-digit">05:00</span>
-                <span className="time-ampm">{isKh ? "ល្ងាច" : "PM"}</span>
-              </div>
-              <div className="timeline-marker">
-                <span className="marker-icon">🥂</span>
-              </div>
-              <div className="timeline-content">
-                <h4 className="timeline-title">
-                  {isKh
-                    ? "ពិធីទទួលបដិសណ្ឋារកិច្ច និងពិសាភោជនាហារ"
-                    : "Grand Reception, Dinner Banquet & Music"}
-                </h4>
-                <p className="timeline-desc">
-                  {isKh
-                    ? "ទទួលស្វាគមន៍ភ្ញៀវកិត្តិយស ពិសាភោជនាហារពេលល្ងាច រាំកម្សាន្ត និងថតរូបអនុស្សាវរីយ៍"
-                    : "Welcome reception banquet, joyous dinner celebration, champagne toast, live music, and dancing."}
-                </p>
-              </div>
-            </div>
+            {CEREMONIAL_SCHEDULE.map((item, idx) => (
+              <motion.div
+                key={idx}
+                className={`timeline-item ${item.isHighlight ? "highlight" : ""}`}
+                initial={{ opacity: 0, x: -50, scale: 0.95 }}
+                whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                viewport={{ once: false, amount: 0.2 }}
+                transition={{
+                  duration: 0.6,
+                  delay: idx * 0.08,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                whileHover={{ x: 6 }}
+              >
+                <div className="timeline-time">
+                  <span className="time-digit">{item.time}</span>
+                  <span className="time-ampm">{isKh ? item.ampmKh : item.ampmEn}</span>
+                </div>
+                <motion.div
+                  className="timeline-marker"
+                  whileHover={{ scale: 1.25, rotate: 10 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                >
+                  <span className="marker-icon">{item.icon}</span>
+                </motion.div>
+                <div className="timeline-content">
+                  <h4 className="timeline-title">
+                    {isKh ? item.titleKh : item.titleEn}
+                  </h4>
+                  <p className="timeline-desc">
+                    {isKh ? item.descKh : item.descEn}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
           </div>
-        </div>
+        </motion.div>
 
-        {/* ================= 3. COUNTDOWN TO THE SPECIAL DAY ================= */}
-        <div className="countdown-card reveal-on-scroll">
-          <h3 className="countdown-heading">
-            {isKh
-              ? "⏳ រាប់ថយក្រោយដល់ថ្ងៃសិរីមង្គល ២០ ឧសភា ២០៣១"
-              : "⏳ Countdown to The Big Day: May 20, 2031"}
-          </h3>
-          <div className="countdown-grid">
-            <div className="countdown-box">
-              <span className="countdown-num">{timeLeft.days}</span>
-              <span className="countdown-label">{isKh ? "ថ្ងៃ" : "Days"}</span>
-            </div>
-            <div className="countdown-colon">:</div>
-            <div className="countdown-box">
-              <span className="countdown-num">
-                {String(timeLeft.hours).padStart(2, "0")}
-              </span>
-              <span className="countdown-label">{isKh ? "ម៉ោង" : "Hours"}</span>
-            </div>
-            <div className="countdown-colon">:</div>
-            <div className="countdown-box">
-              <span className="countdown-num">
-                {String(timeLeft.minutes).padStart(2, "0")}
-              </span>
-              <span className="countdown-label">{isKh ? "នាទី" : "Mins"}</span>
-            </div>
-            <div className="countdown-colon">:</div>
-            <div className="countdown-box">
-              <span className="countdown-num">
-                {String(timeLeft.seconds).padStart(2, "0")}
-              </span>
-              <span className="countdown-label">{isKh ? "វិនាទី" : "Secs"}</span>
-            </div>
-          </div>
-        </div>
+        {/* ================= 4. FLIP-CARD COUNTDOWN ================= */}
+        <FlipCountdown lang={lang} />
 
-        {/* ================= 4. LOCATION & DIRECTIONS ================= */}
-        <div className="location-section-card reveal-on-scroll">
+        {/* ================= 5. LOCATION & DIRECTIONS ================= */}
+        <motion.div
+          className="location-section-card"
+          initial={{ opacity: 0, y: 45, scale: 0.96 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: false, amount: 0.18 }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+        >
           <div className="section-header text-center">
             <span className="section-badge">
               {isKh ? "ទីតាំងប្រារព្ធពិធី" : "Venue Location"}
@@ -502,7 +505,13 @@ const ThiepKar = ({ lang = "kh" }) => {
           </div>
 
           <div className="location-info-card">
-            <div className="location-pin-icon">📍</div>
+            <motion.div
+              className="location-pin-icon"
+              animate={{ y: [0, -10, 0] }}
+              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+            >
+              📍
+            </motion.div>
             <div className="location-details">
               <h3>
                 {isKh
@@ -516,93 +525,40 @@ const ThiepKar = ({ lang = "kh" }) => {
               </p>
             </div>
             <div className="location-actions">
-              <button
+              <motion.button
                 type="button"
                 className="btn-location-action btn-copy"
                 onClick={handleCopyAddress}
+                whileHover={{ scale: 1.08, y: -2 }}
+                whileTap={{ scale: 0.94 }}
               >
                 📋 {isKh ? "ចម្លងទីតាំង" : "Copy Location"}
-              </button>
-              <a
+              </motion.button>
+              <motion.a
                 href="https://maps.app.goo.gl/XQPLV53xsXbMKouY8?g_st=ic"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-location-action btn-map"
+                whileHover={{ scale: 1.08, y: -2 }}
+                whileTap={{ scale: 0.94 }}
               >
                 🗺️ {isKh ? "បើកផែនទី" : "Open Map"}
-              </a>
+              </motion.a>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        {/* ================= 5. MEMORY ALBUM / PHOTO GALLERY ================= */}
-        <div className="gallery-section-card reveal-on-scroll">
-          <div className="section-header text-center">
-            <span className="section-badge">
-              {isKh ? "អនុស្សាវរីយ៍ស្នេហ៍" : "Love Gallery"}
-            </span>
-            <h2 className="section-title">
-              {isKh ? "អាល់ប៊ុមរូបថតអនុស្សាវរីយ៍" : "Our Precious Memories"}
-            </h2>
-            <p className="section-subtitle">
-              {isKh
-                ? "រូបភាពអនុស្សាវរីយ៍ដ៏មានអត្ថន័យរបស់ ណារិទ្ធ &amp; ស៊ិន ស្រីចិន"
-                : "Cherished moments and memories of Sovan Narith & Khmer Sin SreyChen"}
-            </p>
-            <div className="small-golden-divider" />
-          </div>
+        {/* ================= 6. MEMORY ALBUM / PHOTO GALLERY ================= */}
+        <PhotoGallery lang={lang} />
 
-          <div className="photo-grid">
-            {GALLERY_IMAGES.map((img, idx) => (
-              <div
-                key={idx}
-                className="photo-grid-item reveal-on-scroll"
-                onClick={() => setActivePhoto(img)}
-              >
-                <img
-                  src={img.src}
-                  alt={img.caption}
-                  className="grid-thumbnail"
-                  loading="lazy"
-                />
-                <div className="photo-overlay">
-                  <span className="photo-zoom-icon">🔍</span>
-                  <span className="photo-caption">{img.caption}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Lightbox Modal */}
-          {activePhoto && (
-            <div
-              className="lightbox-backdrop"
-              onClick={() => setActivePhoto(null)}
-            >
-              <div
-                className="lightbox-content"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <button
-                  type="button"
-                  className="lightbox-close"
-                  onClick={() => setActivePhoto(null)}
-                >
-                  ✕
-                </button>
-                <img
-                  src={activePhoto.src}
-                  alt={activePhoto.caption}
-                  className="lightbox-img"
-                />
-                <p className="lightbox-caption">{activePhoto.caption}</p>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* ================= 6. WEDDING GIFT / QR CODE (ចំណងដៃ) ================= */}
-        <div className="gift-section-card reveal-on-scroll">
+        {/* ================= 7. WEDDING GIFT / QR CODE (ចំណងដៃ) ================= */}
+        <motion.div
+          className="gift-section-card"
+          initial={{ opacity: 0, y: 45 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.12 }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+        >
           <div className="section-header text-center">
             <span className="section-badge">
               {isKh ? "ចំណងដៃមង្គលការ" : "Wedding Gift"}
@@ -620,7 +576,14 @@ const ThiepKar = ({ lang = "kh" }) => {
 
           <div className="gift-cards-row">
             {/* QR Card */}
-            <div className="gift-qr-card">
+            <motion.div
+              className="gift-qr-card"
+              initial={{ opacity: 0, x: -50, scale: 0.95 }}
+              whileInView={{ opacity: 1, x: 0, scale: 1 }}
+              viewport={{ once: false, amount: 0.2 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ y: -6 }}
+            >
               <div className="qr-badge">ABA / BAKONG QR</div>
               <div className="qr-box">
                 {/* Visual QR Code Representation */}
@@ -674,10 +637,16 @@ const ThiepKar = ({ lang = "kh" }) => {
                   ? "«សូមអរគុណសម្រាប់ទឹកចិត្ត និងការជូនពរដ៏កក់ក្តៅរបស់លោកអ្នក»"
                   : "“Thank you wholeheartedly for your love, support, and blessings.”"}
               </p>
-            </div>
+            </motion.div>
 
             {/* Wishes Form & Live Board */}
-            <div className="wishes-board-card">
+            <motion.div
+              className="wishes-board-card"
+              initial={{ opacity: 0, x: 50, scale: 0.95 }}
+              whileInView={{ opacity: 1, x: 0, scale: 1 }}
+              viewport={{ once: false, amount: 0.2 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            >
               <h3 className="wishes-title">
                 ✍️ {isKh ? "ផ្ញើសារជូនពរដល់គូស្នេហ៍" : "Send Wedding Wishes"}
               </h3>
@@ -706,9 +675,14 @@ const ThiepKar = ({ lang = "kh" }) => {
                   rows="3"
                   required
                 />
-                <button type="submit" className="wish-submit-btn">
+                <motion.button
+                  type="submit"
+                  className="wish-submit-btn"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
                   💌 {isKh ? "ផ្ញើសារជូនពរ" : "Send Blessing"}
-                </button>
+                </motion.button>
               </form>
 
               {/* Recent Wishes List */}
@@ -718,23 +692,42 @@ const ThiepKar = ({ lang = "kh" }) => {
                 </h4>
                 <div className="feed-list">
                   {wishes.map((w, index) => (
-                    <div key={index} className="wish-item">
+                    <motion.div
+                      key={index}
+                      className="wish-item"
+                      initial={{ opacity: 0, y: 15 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: false }}
+                      transition={{ duration: 0.35 }}
+                    >
                       <div className="wish-top">
                         <span className="wish-author">{w.name}</span>
                         <span className="wish-time">{w.time}</span>
                       </div>
                       <p className="wish-text">{w.message}</p>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
 
-        {/* ================= 7. FOOTER THANK YOU ================= */}
-        <div className="thiepkar-footer text-center reveal-on-scroll">
-          <div className="footer-rings">💍 & 💍</div>
+        {/* ================= 8. FOOTER THANK YOU ================= */}
+        <motion.div
+          className="thiepkar-footer text-center"
+          initial={{ opacity: 0, y: 35, scale: 0.95 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <motion.div
+            className="footer-rings"
+            animate={{ scale: [1, 1.25, 1], rotate: [0, -6, 6, 0] }}
+            transition={{ repeat: Infinity, duration: 2.8, ease: "easeInOut" }}
+          >
+            💍 & 💍
+          </motion.div>
           <h2 className="footer-names">Sovan Narith &amp; Khmer Sin SreyChen</h2>
           <p className="footer-kh-names">សុវណ្ណ ណារិទ្ធ &amp; ស៊ិន ស្រីចិន</p>
           <p className="footer-thank">
@@ -743,7 +736,7 @@ const ThiepKar = ({ lang = "kh" }) => {
               : "Thank you from the bottom of our hearts for being part of our special day!"}
           </p>
           <span className="footer-date">May 20, 2031 • Battambang, Cambodia</span>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

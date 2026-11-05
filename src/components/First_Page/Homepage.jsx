@@ -1,8 +1,9 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import Header from "./Header";
 import Content from "./Content";
 import Footer from "./Footer";
+import GoldenParticles from "./GoldenParticles";
 import "./First_Page.css";
 import { useLanguage } from "../../context/LanguageContext";
 
@@ -23,44 +24,18 @@ const text = {
   },
 };
 
-const GoldenParticles = () => {
-  const particles = useMemo(() => {
-    return Array.from({ length: 30 }, (_, i) => ({
-      id: i,
-      left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 100}%`,
-      size: Math.random() * 4 + 2,
-      duration: Math.random() * 6 + 8,
-      delay: Math.random() * 8,
-      opacity: Math.random() * 0.5 + 0.2,
-    }));
-  }, []);
-
-  return (
-    <div className="golden-particles" aria-hidden="true">
-      {particles.map((p) => (
-        <span
-          key={p.id}
-          className="g-particle"
-          style={{
-            left: p.left,
-            top: p.top,
-            width: `${p.size}px`,
-            height: `${p.size}px`,
-            animationDuration: `${p.duration}s`,
-            animationDelay: `${p.delay}s`,
-            opacity: p.opacity,
-          }}
-        />
-      ))}
-    </div>
-  );
-};
-
 const pageVariants = {
   initial: { opacity: 0, scale: 1.02 },
-  animate: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: "easeOut" } },
-  exit: { opacity: 0, scale: 0.98, transition: { duration: 0.4, ease: "easeIn" } },
+  animate: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.98,
+    transition: { duration: 0.5, ease: "easeInOut" },
+  },
 };
 
 const Homepage = () => {

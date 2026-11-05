@@ -12,16 +12,7 @@
 
 /* ================= SCROLL REVEAL ANIMATIONS ================= */
 .reveal-on-scroll {
-  opacity: 0;
-  transform: translateY(35px);
-  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
-}
-
-.reveal-on-scroll.is-visible {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 /* Enhanced text readability with transparent card backgrounds */
@@ -1209,6 +1200,48 @@
   font-size: 0.9rem;
   color: #d1c8b3;
   letter-spacing: 1px;
+}
+
+/* ================= SCROLL TO TOP FLOATING BUTTON ================= */
+.scroll-to-top-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(28, 20, 58, 0.85);
+  border: 1.5px solid rgba(255, 232, 115, 0.6);
+  color: #ffe873;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 232, 115, 0.35);
+  outline: none;
+}
+
+.scroll-to-top-btn:hover {
+  background: rgba(48, 34, 100, 0.95);
+  border-color: #ffe873;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 22px rgba(255, 232, 115, 0.6);
+}
+
+.scroll-to-top-icon {
+  width: 22px;
+  height: 22px;
+}
+
+@media (max-width: 600px) {
+  .scroll-to-top-btn {
+    bottom: 16px;
+    right: 16px;
+    width: 42px;
+    height: 42px;
+  }
 }
 
 /* ================= RESPONSIVE ================= */

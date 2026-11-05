@@ -332,29 +332,53 @@
   display: inline-block;
   background: linear-gradient(90deg, #7f53ac, #647dee);
   color: #fff;
-  padding: 4px 14px;
+  padding: 3px 12px;
   border-radius: 20px;
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.5rem;
 }
 
 .parent-label {
-  font-size: 1rem;
+  font-size: 0.88rem;
   color: #e7d38d;
   font-weight: 600;
   margin-bottom: 0.4rem;
 }
 
-.parent-name {
-  font-size: 1.25rem;
+.parents-names-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 0.5rem;
+}
+
+.parent-person {
+  margin: 0;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.parent-role {
+  font-size: 0.82rem;
+  color: #e7d38d;
+  font-weight: 500;
+}
+
+.parent-person .parent-name {
+  font-size: 1.05rem;
   color: #ffe873;
   font-weight: 700;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0;
+  display: inline-block;
 }
 
 .family-status {
-  font-size: 0.95rem;
+  font-size: 0.82rem;
   color: #d1c8b3;
   margin: 0;
 }
@@ -366,8 +390,8 @@
 }
 
 .lotus-symbol {
-  font-size: 2.2rem;
-  filter: drop-shadow(0 0 10px rgba(255, 232, 115, 0.4));
+  font-size: 1.6rem;
+  filter: drop-shadow(0 0 8px rgba(255, 232, 115, 0.4));
   animation: pulseLotus 3s ease-in-out infinite alternate;
 }
 
@@ -1390,20 +1414,25 @@
   }
 
   .parent-badge {
-    font-size: 0.72rem;
-    padding: 3px 10px;
+    font-size: 0.65rem;
+    padding: 2px 8px;
   }
 
   .parent-label {
-    font-size: 0.88rem;
+    font-size: 0.78rem;
   }
 
-  .parent-name {
-    font-size: 1.05rem;
+  .parent-role {
+    font-size: 0.75rem;
+  }
+
+  .parent-name,
+  .parent-person .parent-name {
+    font-size: 0.92rem;
   }
 
   .family-status {
-    font-size: 0.85rem;
+    font-size: 0.75rem;
   }
 
   /* Couple Cards: Keep INLINE */
@@ -1624,25 +1653,30 @@
   }
 
   .parent-badge {
-    font-size: 0.65rem;
-    padding: 2px 7px;
-    margin-bottom: 0.4rem;
+    font-size: 0.58rem;
+    padding: 2px 6px;
+    margin-bottom: 0.3rem;
     white-space: nowrap;
   }
 
   .parent-label {
-    font-size: 0.8rem;
-    margin-bottom: 0.2rem;
+    font-size: 0.72rem;
+    margin-bottom: 0.15rem;
   }
 
-  .parent-name {
-    font-size: 0.92rem;
+  .parent-role {
+    font-size: 0.68rem;
+  }
+
+  .parent-name,
+  .parent-person .parent-name {
+    font-size: 0.82rem;
     margin-bottom: 0.1rem;
     word-break: break-word;
   }
 
   .family-status {
-    font-size: 0.78rem;
+    font-size: 0.7rem;
   }
 
   .thiepkar-invitation-text {

@@ -279,11 +279,18 @@ const ThiepKar = ({ lang = "kh" }) => {
               <h4 className="parent-label">
                 {isKh ? "មាតាបិតាខាងកូនប្រុស" : "Parents of the Groom"}
               </h4>
-              <p className="parent-name">
-                {isKh ? "លោកឪពុក & អ្នកម្តាយ" : "Father & Mother"}
-              </p>
+              <div className="parents-names-list">
+                <p className="parent-person">
+                  <span className="parent-role">{isKh ? "លោកឪពុក ៖ " : "Father: "}</span>
+                  <span className="parent-name">{isKh ? "អ៊ួយ សុវណ្ណ" : "Ouy Sovan"}</span>
+                </p>
+                <p className="parent-person">
+                  <span className="parent-role">{isKh ? "អ្នកម្តាយ ៖ " : "Mother: "}</span>
+                  <span className="parent-name">{isKh ? "ទូច ស្រីនាង" : "Touch Sreyniang"}</span>
+                </p>
+              </div>
               <p className="family-status">
-                {isKh ? "សុវណ្ណ ណារិទ្ធ" : "Sovan Narith"}
+                {isKh ? "កូនប្រុស ៖ សុវណ្ណ ណារិទ្ធ" : "Son: Sovan Narith"}
               </p>
             </motion.div>
 
@@ -312,11 +319,18 @@ const ThiepKar = ({ lang = "kh" }) => {
               <h4 className="parent-label">
                 {isKh ? "មាតាបិតាខាងកូនស្រី" : "Parents of the Bride"}
               </h4>
-              <p className="parent-name">
-                {isKh ? "លោកឪពុក & អ្នកម្តាយ" : "Father & Mother"}
-              </p>
+              <div className="parents-names-list">
+                <p className="parent-person">
+                  <span className="parent-role">{isKh ? "លោកឪពុក ៖ " : "Father: "}</span>
+                  <span className="parent-name">{isKh ? "ពេជ្រ ចន្ធូ" : "Pech Chanthou"}</span>
+                </p>
+                <p className="parent-person">
+                  <span className="parent-role">{isKh ? "អ្នកម្តាយ ៖ " : "Mother: "}</span>
+                  <span className="parent-name">{isKh ? "ស៊ិន សារ៉ាន់" : "Sin Saran"}</span>
+                </p>
+              </div>
               <p className="family-status">
-                {isKh ? "ស៊ិន ស្រីចិន" : "Sin SreyChen"}
+                {isKh ? "កូនស្រី ៖ ស៊ិន ស្រីចិន" : "Daughter: Sin SreyChen"}
               </p>
             </motion.div>
           </div>

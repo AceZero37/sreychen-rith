@@ -241,8 +241,8 @@
   position: relative;
   background: transparent;
   border: none;
-  border-radius: 24px;
-  padding: 3.5rem 2.5rem;
+  border-radius: 28px;
+  padding: 3.5rem 1.5rem;
   box-shadow: none;
 }
 
@@ -320,7 +320,7 @@
   margin-bottom: 2.5rem;
   background: transparent;
   padding: 1.8rem 1.5rem;
-  border-radius: 16px;
+  border-radius: 20px;
   border: none;
 }
 
@@ -430,8 +430,8 @@
 .couple-person-card {
   background: transparent;
   border: none;
-  border-radius: 20px;
-  padding: 1.8rem 1.2rem;
+  border-radius: 22px;
+  padding: 1.5rem 1rem;
   text-align: center;
   box-shadow: none;
   transition: transform 0.3s ease;
@@ -580,8 +580,8 @@
   position: relative;
   background: transparent;
   border: none;
-  border-radius: 24px;
-  padding: 3rem 2.2rem;
+  border-radius: 28px;
+  padding: 3rem 1.5rem;
   box-shadow: none;
 }
 
@@ -696,8 +696,8 @@
 .timeline-content {
   background: transparent;
   border: none;
-  border-radius: 16px;
-  padding: 1.2rem 1.5rem;
+  border-radius: 18px;
+  padding: 1rem 1.4rem;
   flex-grow: 1;
   box-shadow: none;
 }
@@ -792,8 +792,8 @@
 .location-info-card {
   background: transparent;
   border: none;
-  border-radius: 18px;
-  padding: 2rem;
+  border-radius: 22px;
+  padding: 2rem 1.5rem;
   text-align: center;
   max-width: 720px;
   margin: 0 auto;
@@ -1015,8 +1015,8 @@
 .gift-qr-card {
   background: transparent;
   border: none;
-  border-radius: 20px;
-  padding: 2rem 1.5rem;
+  border-radius: 22px;
+  padding: 2rem 1rem;
   text-align: center;
   box-shadow: none;
 }
@@ -1048,6 +1048,33 @@
   margin: 10px 0 2px;
 }
 
+.account-num-display {
+  font-family: monospace;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #7f53ac;
+  letter-spacing: 1px;
+  margin: 4px 0 8px;
+}
+
+.btn-copy-acc {
+  background: rgba(127, 83, 172, 0.15);
+  border: 1px solid rgba(127, 83, 172, 0.4);
+  color: #181234;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-bottom: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-copy-acc:hover {
+  background: #7f53ac;
+  color: #fff;
+}
+
 .account-sub {
   font-size: 0.75rem;
   color: #666;
@@ -1066,8 +1093,8 @@
 .wishes-board-card {
   background: transparent;
   border: none;
-  border-radius: 20px;
-  padding: 2rem;
+  border-radius: 22px;
+  padding: 2rem 1rem;
   box-shadow: none;
 }
 
@@ -1076,6 +1103,43 @@
   color: #ffe873;
   font-weight: 700;
   margin-bottom: 1.2rem;
+}
+
+/* Attendance RSVP Selector */
+.attendance-picker {
+  margin-bottom: 0.4rem;
+}
+
+.attendance-options {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 0.6rem;
+}
+
+.att-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(18, 14, 40, 0.7);
+  border: 1.5px solid rgba(255, 232, 115, 0.25);
+  color: #d1c8b3;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.att-btn:hover {
+  border-color: rgba(255, 232, 115, 0.5);
+  color: #fff;
+}
+
+.att-btn.active {
+  background: linear-gradient(135deg, rgba(127, 83, 172, 0.8), rgba(100, 125, 238, 0.8));
+  border-color: #ffe873;
+  color: #ffe873;
+  box-shadow: 0 0 14px rgba(255, 232, 115, 0.3);
 }
 
 .wish-form {
@@ -1089,7 +1153,7 @@
 .wish-textarea {
   width: 100%;
   background: rgba(15, 12, 35, 0.85);
-  border: none;
+  border: 1px solid rgba(255, 232, 115, 0.25);
   border-radius: 12px;
   padding: 10px 14px;
   color: #fff;
@@ -1097,12 +1161,13 @@
   font-family: inherit;
   outline: none;
   box-sizing: border-box;
-  transition: box-shadow 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .wish-input:focus,
 .wish-textarea:focus {
-  box-shadow: 0 0 10px rgba(255, 232, 115, 0.25);
+  border-color: #ffe873;
+  box-shadow: 0 0 12px rgba(255, 232, 115, 0.35);
 }
 
 .wish-submit-btn {
@@ -1150,27 +1215,54 @@
 }
 
 .wish-item {
-  background: transparent;
-  border: none;
-  border-left: 3px solid #ffe873;
-  border-radius: 8px;
-  padding: 10px 14px;
+  background: rgba(18, 14, 40, 0.75);
+  border: 1px solid rgba(255, 232, 115, 0.18);
+  border-left: 3.5px solid #ffe873;
+  border-radius: 12px;
+  padding: 12px 14px;
 }
 
 .wish-top {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 4px;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.wish-author-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .wish-author {
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: #ffe873;
 }
 
+.wish-att-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+}
+
+.wish-att-badge.attending {
+  background: rgba(46, 204, 113, 0.15);
+  border-color: rgba(46, 204, 113, 0.5);
+  color: #a3e635;
+}
+
+.wish-att-badge.online {
+  background: rgba(255, 107, 138, 0.15);
+  border-color: rgba(255, 107, 138, 0.5);
+  color: #ff8da1;
+}
+
 .wish-time {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: #a89f8c;
 }
 

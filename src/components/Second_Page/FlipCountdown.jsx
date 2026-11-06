@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import WeddingCalendar from "./WeddingCalendar";
 import "./FlipCountdown.css";
 
 const WEDDING_DATE = new Date("2031-05-20T07:00:00");
@@ -118,6 +119,9 @@ const FlipCountdown = ({ lang = "kh" }) => {
         <div className="flip-separator">:</div>
         <FlipUnit value={timeLeft.seconds} label={isKh ? "វិនាទី" : "Secs"} delay={0.24} />
       </div>
+
+      {/* Visual Monthly Calendar for May 2031 */}
+      <WeddingCalendar lang={lang} />
     </motion.div>
   );
 };

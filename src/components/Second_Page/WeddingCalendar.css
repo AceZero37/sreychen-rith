@@ -1,0 +1,199 @@
+/* Wedding Calendar Styles */
+.wedding-calendar-wrapper {
+  position: relative;
+  max-width: 440px;
+  margin: 3rem auto 0;
+  background: transparent;
+  user-select: none;
+}
+
+.calendar-header-block {
+  margin-bottom: 1.4rem;
+}
+
+.calendar-crown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: #ffe873;
+}
+
+.cal-leaf {
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+.cal-title {
+  font-family: 'Battambang', 'Khmer OS Muol Light', serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #ffe873;
+  letter-spacing: 2px;
+  text-shadow: 0 0 14px rgba(255, 232, 115, 0.5), 0 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+.calendar-subtext {
+  font-size: 0.88rem;
+  color: #e7d38d;
+  font-style: italic;
+  margin-top: 4px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* 7-column calendar grid */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin: 0 auto;
+}
+
+.calendar-weekday {
+  text-align: center;
+  font-family: 'Battambang', 'Poppins', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #e7d38d;
+  padding: 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+  border-bottom: 1px solid rgba(255, 232, 115, 0.25);
+}
+
+.calendar-cell {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', 'Battambang', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f7f3e8;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.calendar-cell.regular {
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+.calendar-cell.regular:hover {
+  background: rgba(255, 232, 115, 0.12);
+  color: #ffe873;
+}
+
+.calendar-cell.empty {
+  pointer-events: none;
+}
+
+/* Day 20 - The Wedding Day Highlight */
+.calendar-cell.wedding-highlight {
+  background: radial-gradient(circle, rgba(215, 38, 96, 0.9) 0%, rgba(127, 83, 172, 0.9) 100%);
+  border: 2px solid #ffe873;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1.05rem;
+  box-shadow: 0 0 20px rgba(255, 232, 115, 0.6), 0 0 10px rgba(215, 38, 96, 0.8);
+  cursor: pointer;
+  z-index: 5;
+}
+
+.wedding-badge-ring {
+  position: absolute;
+  top: -9px;
+  font-size: 0.85rem;
+  filter: drop-shadow(0 0 4px rgba(255, 232, 115, 0.8));
+  animation: ringBob 2s infinite ease-in-out;
+}
+
+@keyframes ringBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.wedding-day-num {
+  line-height: 1;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.9);
+}
+
+.wedding-heart-halo {
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 232, 115, 0.55);
+  animation: haloPulse 2.4s cubic-bezier(0.2, 0.8, 0.3, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes haloPulse {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+/* Action button */
+.calendar-action-row {
+  margin-top: 1.6rem;
+}
+
+.btn-cal-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(26, 18, 54, 0.75);
+  border: 1.5px solid rgba(255, 232, 115, 0.5);
+  border-radius: 9999px;
+  color: #ffe873;
+  font-family: 'Battambang', 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 8px 22px;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4), 0 0 12px rgba(255, 232, 115, 0.2);
+  transition: all 0.25s ease;
+}
+
+.btn-cal-add:hover {
+  background: rgba(45, 30, 95, 0.92);
+  border-color: #ffe873;
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 18px rgba(255, 232, 115, 0.4);
+}
+
+.cal-btn-icon {
+  font-size: 1.05rem;
+}
+
+@media (max-width: 480px) {
+  .wedding-calendar-wrapper {
+    max-width: 320px;
+  }
+
+  .cal-title {
+    font-size: 1.35rem;
+  }
+
+  .calendar-weekday {
+    font-size: 0.72rem;
+    padding: 6px 0;
+  }
+
+  .calendar-cell {
+    font-size: 0.82rem;
+  }
+
+  .calendar-cell.wedding-highlight {
+    font-size: 0.92rem;
+  }
+
+  .btn-cal-add {
+    font-size: 0.82rem;
+    padding: 7px 16px;
+  }
+}
+

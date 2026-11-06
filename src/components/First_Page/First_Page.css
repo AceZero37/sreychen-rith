@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Khmer OS Muol Light';
-  src: url('/fonts/KhmerOS_muollight.ttf') format('truetype');
+  src: local('Moul'), local('Khmer OS Muol Light'), local('KhmerOSmuollight');
   font-weight: normal;
   font-style: normal;
 }

@@ -7,14 +7,14 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.22,
-      delayChildren: 0.25,
+      staggerChildren: 0.18,
+      delayChildren: 0.2,
     },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 28, scale: 0.96 },
+  hidden: { opacity: 0, y: 24, scale: 0.96 },
   visible: {
     opacity: 1,
     y: 0,
@@ -30,14 +30,14 @@ const Content = ({ text, lang }) => (
     initial="hidden"
     animate="visible"
   >
-    <motion.h1
-      className="first-page-title mb-2"
-      variants={itemVariants}
-      animate={{ y: [0, -4, 0] }}
-      transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-    >
-      {text.initials}
-    </motion.h1>
+    {/* Modern Luxury Monogram Crest */}
+    <motion.div className="luxury-monogram-badge" variants={itemVariants}>
+      <div className="monogram-outer-ring" />
+      <div className="monogram-inner">
+        <span className="monogram-initials">R &amp; R</span>
+        <span className="monogram-year">2031</span>
+      </div>
+    </motion.div>
 
     <motion.div className="heart-divider-line" variants={itemVariants}>
       <span className="hd-line" />
@@ -75,14 +75,14 @@ const Content = ({ text, lang }) => (
 
     <motion.div variants={itemVariants}>
       <motion.div
-        whileHover={{ scale: 1.06, y: -2 }}
+        whileHover={{ scale: 1.05, y: -3 }}
         whileTap={{ scale: 0.96 }}
         transition={{ type: "spring", stiffness: 400, damping: 20 }}
         style={{ display: "inline-block" }}
       >
         <Link to="/second" className={`btn btn-lg first-page-btn ${lang}`}>
           <span>{text.button}</span>
-          <span style={{ marginLeft: "8px", display: "inline-block" }}>✨</span>
+          <span style={{ marginLeft: "10px", display: "inline-block" }}>✨</span>
         </Link>
       </motion.div>
     </motion.div>
